@@ -129,7 +129,7 @@ INT begin_of_run(INT run_number, char *error)
     v1740_Reset(myvme, V1740_BASE_ADDR);
 
     // Setting mode 1. It sets various parameters of the device.
-    v1740_Setup(myvme, V1740_BASE_ADDR, 0x3);
+    v1740_Setup(myvme, V1740_BASE_ADDR, 0x1);
  /*   for(i=1;i<9;i++)
     {
         v1740_ChannelThresholdSet(myvme, V1740_BASE_ADDR, i, 0x0868);
@@ -244,8 +244,11 @@ INT interrupt_configure(INT cmd, INT source, POINTER_T adr)
 
 INT read_trigger_event(char *pevent, INT off)
 {
-    DWORD *tdata, *ddata, *pdata,*pdata1, *pdata2, *pdata3,*pdata4, *evdata;
+    // DWORD *tdata, *ddata, *pdata,*pdata1, *pdata2, *pdata3,*pdata4, *evdata;
+    DWORD *d1740data, *evdata;
     int nentry, nextra, dummyevent, fevtcnt, temp, dtemp, dentry, dextra, devtcnt;
+    int size_of_evt, nu_of_evt;
+
     // Generating a pulse
     CAENVME_SetOutputRegister((int)myvme->info,cvOut0Bit);
     CAENVME_SetOutputRegister((int)myvme->info,cvOut1Bit);
@@ -253,13 +256,78 @@ INT read_trigger_event(char *pevent, INT off)
 
 //-----------------Take Data from Digitizer----------------------------//
 #if defined V1740_CODE
+    v1740_AcqCtl(myvme,V1740_BASE_ADDR,V1740_RUN_STOP);
     dentry = 0;
     dextra = 0;
     devtcnt = 0;
-    bk_create(pevent,"DG01",TID_DWORD, &ddata);
-    v1740_AcqCtl(myvme,V1740_BASE_ADDR,V1740_RUN_STOP);
-    dentry = v1740_DataRead(myvme, V1740_BASE_ADDR,ddata, 8);
-    bk_close(pevent,ddata);
+    size_of_evt = 0;
+    nu_of_evt = 0;
+    int readmsg = 0;
+    int cycle = 0,  maxcycles = 6;     // This varialble is important to read just the first event and not let ODB overflow
+
+    int bytes_totransfer = 0, bytes_remaining = 0 ;
+    int bytes_transferred =  0;
+    int bytes_max =  4096;
+
+    bk_create(pevent,"DG01",TID_DWORD, &d1740data);
+
+    int InpDat = v1740_RegisterRead(myvme, V1740_BASE_ADDR, V1740_VME_STATUS);
+    InpDat = InpDat & 0x00000001;
+
+    mvme_set_am(myvme, MVME_AM_A32_ND); //set addressing mode to A32 non-privileged data
+    mvme_set_dmode(myvme, MVME_DMODE_D32);
+    mvme_set_blt(myvme, MVME_BLT_BLT32);
+
+    if (InpDat == 1)
+    {
+        size_of_evt =  mvme_read_value(myvme, V1740_BASE_ADDR, V1740_EVENT_SIZE);
+        nu_of_evt =  mvme_read_value(myvme, V1740_BASE_ADDR, V1740_EVENT_STORED);
+
+        bytes_remaining = size_of_evt * nu_of_evt * 4;     //chaning from 32bit to byte
+        int toread = bytes_remaining;
+
+        if (bytes_remaining > 1 )
+        {
+//            printf("\n\n\n\nNew Event:: \t Bytes Remaining:: %d\n", bytes_remaining);
+            *d1740data = (DWORD *) malloc(bytes_remaining);
+            cycle = 0;
+            int buffer_address = V1740_EVENT_READOUT_BUFFER;
+
+            while(bytes_remaining > 1 && cycle < maxcycles)   // the cycle setting is important untill we have smart 
+            {                                                  // trigger oterwise it will read many cylcles 
+                                                               // and return odb fragmentation  error 
+    //            printf("Bytes Remaining:: %d Cycle :: %d\n", bytes_remaining, cycle);
+                if (bytes_remaining > 4096)
+                {
+                    bytes_totransfer = bytes_max;
+//                    printf("Bytes Remaining:: %d\n", bytes_remaining);
+                }
+               else
+                    bytes_totransfer = bytes_remaining;
+
+                //        to_transfer = bytes_remaining > bytes_max ? bytes_max : bytes_remaining;
+                //V1720_EVENT_READOUT_BUFFER
+                readmsg = CAENVME_BLTReadCycle((long *)myvme->info, V1740_BASE_ADDR + V1740_EVENT_READOUT_BUFFER , d1740data, bytes_totransfer, cvA32_U_BLT, 0x04, &bytes_transferred);
+                bytes_remaining = bytes_remaining - bytes_transferred;
+                if (readmsg == 0)
+                {
+//                    printf("BLT success::%d\n",readmsg);
+                    d1740data += bytes_transferred/4;
+//                  printf("Cycles Requ:: %d \t Cycles READ:: %d \n", bytes_totransfer, bytes_transferred);
+//                  printf("To REad:: %d \t ACt. READ:: %d \t Rem. to Read:: %d \n", bytes_totransfer, bytes_transferred, bytes_remaining);
+//                    printf("First Data Word:: %d \n", ddata[0]);
+                }
+                if (readmsg != 0)
+                {
+                    printf("\n\n\n\nBLT REad Message::%d\n", readmsg);
+                    printf("Cycles Requ:: %d \t Cycles READ:: %d \n", bytes_totransfer, bytes_transferred);
+                }
+                cycle++;
+            }
+        }
+    }
+
+bk_close(pevent,d1740data);
 #endif
 
 //-----------------Bank for DAQ event counter----------------------------------//
