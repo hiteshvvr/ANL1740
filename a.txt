@@ -1,0 +1,234 @@
+gcc -g -O2 -Wall -fpermissive -g -I/home/neatdaq/NewDaq/packages/midas/include -I/home/neatdaq/NewDaq/packages/midas/drivers/vme -I/home/neatdaq/NewDaq/packages/midas/drivers/vme/vmic   -c -o v2718.o v2718.c
+cc1: warning: command line option ‘-fpermissive’ is valid for C++/ObjC++ but not for C
+v2718.c: In function ‘mvme_open’:
+v2718.c:112:19: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+     (*mvme)->info = BHandle;
+                   ^
+v2718.c: In function ‘mvme_close’:
+v2718.c:129:14: warning: variable ‘table’ set but not used [-Wunused-but-set-variable]
+   VME_TABLE *table;
+              ^
+v2718.c: In function ‘mvme_read’:
+v2718.c:174:24: warning: passing argument 1 of ‘CAENVME_BLTReadCycle’ makes integer from pointer without a cast [-Wint-conversion]
+   CAENVME_BLTReadCycle((long *)mvme->info,addr,dst,TSize,cvA32_U_BLT,0x04,&count);
+                        ^
+In file included from v2718.h:17:0,
+                 from v2718.c:27:
+/usr/include/CAENVMElib.h:289:1: note: expected ‘int32_t {aka int}’ but argument is of type ‘long int *’
+ CAENVME_BLTReadCycle(int32_t Handle, uint32_t Address, void *Buffer,
+ ^
+v2718.c: In function ‘mvme_read_value’:
+v2718.c:218:26: warning: passing argument 1 of ‘CAENVME_ReadCycle’ makes integer from pointer without a cast [-Wint-conversion]
+   Stat=CAENVME_ReadCycle((long *)mvme->info,(unsigned long)addr,&dst,mvme->am,DM);
+                          ^
+In file included from v2718.h:17:0,
+                 from v2718.c:27:
+/usr/include/CAENVMElib.h:180:1: note: expected ‘int32_t {aka int}’ but argument is of type ‘long int *’
+ CAENVME_ReadCycle(int32_t Handle, uint32_t Address, void *Data,
+ ^
+v2718.c:192:21: warning: unused variable ‘AM’ [-Wunused-variable]
+   CVAddressModifier AM;
+                     ^
+v2718.c: In function ‘mvme_write_value’:
+v2718.c:257:12: warning: unused variable ‘value_c’ [-Wunused-variable]
+       char value_c = (char)value;
+            ^
+v2718.c:269:24: warning: passing argument 1 of ‘CAENVME_WriteCycle’ makes integer from pointer without a cast [-Wint-conversion]
+     CAENVME_WriteCycle((long*)mvme->info,addr,&value_w,mvme->am,mvme->dmode);
+                        ^
+In file included from v2718.h:17:0,
+                 from v2718.c:27:
+/usr/include/CAENVMElib.h:222:1: note: expected ‘int32_t {aka int}’ but argument is of type ‘long int *’
+ CAENVME_WriteCycle(int32_t Handle, uint32_t Address, void *Data,
+ ^
+v2718.c:280:24: warning: passing argument 1 of ‘CAENVME_WriteCycle’ makes integer from pointer without a cast [-Wint-conversion]
+     CAENVME_WriteCycle((long*)mvme->info,addr,&value_dw,mvme->am,DM);
+                        ^
+In file included from v2718.h:17:0,
+                 from v2718.c:27:
+/usr/include/CAENVMElib.h:222:1: note: expected ‘int32_t {aka int}’ but argument is of type ‘long int *’
+ CAENVME_WriteCycle(int32_t Handle, uint32_t Address, void *Data,
+ ^
+gcc -g -O2 -Wall -fpermissive -g -I/home/neatdaq/NewDaq/packages/midas/include -I/home/neatdaq/NewDaq/packages/midas/drivers/vme -I/home/neatdaq/NewDaq/packages/midas/drivers/vme/vmic -DOS_LINUX -Dextname -DLINUX -Wno-unused-but-set-variable -Wno-unused-variable -o v1740.o -c v1740.c
+cc1: warning: command line option ‘-fpermissive’ is valid for C++/ObjC++ but not for C
+gcc -g -O2 -Wall -fpermissive -g -I/home/neatdaq/NewDaq/packages/midas/include -I/home/neatdaq/NewDaq/packages/midas/drivers/vme -I/home/neatdaq/NewDaq/packages/midas/drivers/vme/vmic -DOS_LINUX -Dextname -DLINUX -c -o camacnul.o /home/neatdaq/NewDaq/packages/midas/drivers/camac/camacnul.c
+cc1: warning: command line option ‘-fpermissive’ is valid for C++/ObjC++ but not for C
+gcc -g -O2 -Wall -fpermissive -g -I/home/neatdaq/NewDaq/packages/midas/include -I/home/neatdaq/NewDaq/packages/midas/drivers/vme -I/home/neatdaq/NewDaq/packages/midas/drivers/vme/vmic -DOS_LINUX -Dextname -DLINUX -o frontend frontend.c \
+/home/neatdaq/NewDaq/packages/midas/src/cnaf_callback.c /usr/include/CAENVMElib.h /usr/include/CAENVMEtypes.h /usr/include/CAENVMEoslib.h v2718.o v1740.o camacnul.o /home/neatdaq/NewDaq/packages/midas/linux/lib/mfe.o /home/neatdaq/NewDaq/packages/midas/linux/lib/libmidas.a \
+-lm -lz -lutil -lnsl -lpthread -lrt -l CAENVME #libpvic.a
+cc1: warning: command line option ‘-fpermissive’ is valid for C++/ObjC++ but not for C
+frontend.c: In function ‘frontend_init’:
+frontend.c:44:5: warning: implicit declaration of function ‘CEANVME_DeviceReset’ [-Wimplicit-function-declaration]
+     CEANVME_DeviceReset((int)myvme->info);
+     ^
+frontend.c:44:25: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CEANVME_DeviceReset((int)myvme->info);
+                         ^
+frontend.c:45:5: warning: implicit declaration of function ‘CEANVME_SetOutputConf’ [-Wimplicit-function-declaration]
+     CEANVME_SetOutputConf((int)myvme->info,cvOutput0,cvDirect,cvDirect,cvManualSW);
+     ^
+frontend.c:45:27: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CEANVME_SetOutputConf((int)myvme->info,cvOutput0,cvDirect,cvDirect,cvManualSW);
+                           ^
+frontend.c:46:27: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CEANVME_SetOutputConf((int)myvme->info,cvOutput1,cvDirect,cvDirect,cvManualSW);
+                           ^
+frontend.c:47:31: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CAENVME_SetOutputRegister((int) myvme->info, cvOut0Bit);
+                               ^
+frontend.c:48:31: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CAENVME_SetOutputRegister((int) myvme->info, cvOut1Bit);
+                               ^
+frontend.c:49:5: warning: implicit declaration of function ‘CEANVME_SetInputConf’ [-Wimplicit-function-declaration]
+     CEANVME_SetInputConf((int)myvme->info,cvInput0,cvDirect,cvDirect);
+     ^
+frontend.c:49:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CEANVME_SetInputConf((int)myvme->info,cvInput0,cvDirect,cvDirect);
+                          ^
+frontend.c:52:5: warning: implicit declaration of function ‘CEANVME_ReadRegister’ [-Wimplicit-function-declaration]
+     CEANVME_ReadRegister((int)myvme->info,0x0B,&InpDat);
+     ^
+frontend.c:52:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CEANVME_ReadRegister((int)myvme->info,0x0B,&InpDat);
+                          ^
+frontend.c:55:26: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CEANVME_ReadRegister((int)myvme->info,cvInputReg,&InpDat);
+                          ^
+frontend.c:95:11: warning: implicit declaration of function ‘v1740_RegisterRead’ [-Wimplicit-function-declaration]
+     aad = v1740_RegisterRead(myvme,V1740_BASE_ADDR,0x811C);
+           ^
+frontend.c:100:9: warning: implicit declaration of function ‘v1740_ChannelThresholdSet’ [-Wimplicit-function-declaration]
+         v1740_ChannelThresholdSet(myvme,V1740_BASE_ADDR,i,0x0868);
+         ^
+frontend.c:92:9: warning: unused variable ‘gemlatch’ [-Wunused-variable]
+     int gemlatch = 9;
+         ^
+frontend.c:39:30: warning: unused variable ‘bad’ [-Wunused-variable]
+     int i, status, csr, aad, bad;
+                              ^
+frontend.c:39:20: warning: unused variable ‘csr’ [-Wunused-variable]
+     int i, status, csr, aad, bad;
+                    ^
+frontend.c: In function ‘begin_of_run’:
+frontend.c:120:5: warning: implicit declaration of function ‘myvme_set_am’ [-Wimplicit-function-declaration]
+     myvme_set_am(myvme,MVME_AM_A32_ND);
+     ^
+frontend.c:121:5: warning: implicit declaration of function ‘myvme_set_dmode’ [-Wimplicit-function-declaration]
+     myvme_set_dmode(myvme,MVME_DMODE_D32);
+     ^
+frontend.c:155:5: warning: implicit declaration of function ‘V1740_AcqCtl’ [-Wimplicit-function-declaration]
+     V1740_AcqCtl(myvme, V1740_BASE_ADDR,V1740_RUN_START);
+     ^
+frontend.c:119:10: warning: unused variable ‘threshold’ [-Wunused-variable]
+     WORD threshold[32];
+          ^
+frontend.c:118:25: warning: unused variable ‘evtcnt’ [-Wunused-variable]
+     int i, csr, status, evtcnt;
+                         ^
+frontend.c:118:17: warning: unused variable ‘status’ [-Wunused-variable]
+     int i, csr, status, evtcnt;
+                 ^
+frontend.c: In function ‘poll_event’:
+frontend.c:212:9: warning: unused variable ‘latch’ [-Wunused-variable]
+     int latch = 0;
+         ^
+frontend.c: In function ‘read_trigger_event’:
+frontend.c:250:5: warning: implicit declaration of function ‘CEANVME_SetOutputRegister’ [-Wimplicit-function-declaration]
+     CEANVME_SetOutputRegister((int)myvme->info,cvOut0Bit);
+     ^
+frontend.c:250:31: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CEANVME_SetOutputRegister((int)myvme->info,cvOut0Bit);
+                               ^
+frontend.c:251:31: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CEANVME_SetOutputRegister((int)myvme->info,cvOut1Bit);
+                               ^
+frontend.c:266:39: warning: passing argument 4 of ‘bk_create’ from incompatible pointer type [-Wincompatible-pointer-types]
+     bk_create(pevent,"EVNT",TID_DWORD,&evdata);
+                                       ^
+In file included from frontend.c:4:0:
+/home/neatdaq/NewDaq/packages/midas/include/midas.h:1874:15: note: expected ‘void **’ but argument is of type ‘DWORD ** {aka unsigned int **}’
+    void EXPRT bk_create(void *pbh, const char *name, WORD type, void **pdata);
+               ^
+frontend.c:271:31: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CAENVME_SetOutputRegister((int) myvme->info,cvOut0Bit);
+                               ^
+frontend.c:272:31: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     CAENVME_SetOutputRegister((int) myvme->info,cvOut1Bit);
+                               ^
+frontend.c:248:75: warning: unused variable ‘devtcnt’ [-Wunused-variable]
+     int nentry, nextra, dummyevent, fevtcnt, temp, dtemp, dentry, dextra, devtcnt;
+                                                                           ^
+frontend.c:248:67: warning: unused variable ‘dextra’ [-Wunused-variable]
+     int nentry, nextra, dummyevent, fevtcnt, temp, dtemp, dentry, dextra, devtcnt;
+                                                                   ^
+frontend.c:248:59: warning: unused variable ‘dentry’ [-Wunused-variable]
+     int nentry, nextra, dummyevent, fevtcnt, temp, dtemp, dentry, dextra, devtcnt;
+                                                           ^
+frontend.c:248:52: warning: unused variable ‘dtemp’ [-Wunused-variable]
+     int nentry, nextra, dummyevent, fevtcnt, temp, dtemp, dentry, dextra, devtcnt;
+                                                    ^
+frontend.c:248:46: warning: unused variable ‘temp’ [-Wunused-variable]
+     int nentry, nextra, dummyevent, fevtcnt, temp, dtemp, dentry, dextra, devtcnt;
+                                              ^
+frontend.c:248:37: warning: unused variable ‘fevtcnt’ [-Wunused-variable]
+     int nentry, nextra, dummyevent, fevtcnt, temp, dtemp, dentry, dextra, devtcnt;
+                                     ^
+frontend.c:248:25: warning: unused variable ‘dummyevent’ [-Wunused-variable]
+     int nentry, nextra, dummyevent, fevtcnt, temp, dtemp, dentry, dextra, devtcnt;
+                         ^
+frontend.c:248:17: warning: unused variable ‘nextra’ [-Wunused-variable]
+     int nentry, nextra, dummyevent, fevtcnt, temp, dtemp, dentry, dextra, devtcnt;
+                 ^
+frontend.c:248:9: warning: unused variable ‘nentry’ [-Wunused-variable]
+     int nentry, nextra, dummyevent, fevtcnt, temp, dtemp, dentry, dextra, devtcnt;
+         ^
+frontend.c:247:61: warning: unused variable ‘pdata4’ [-Wunused-variable]
+     DWORD *tdata, *ddata, *pdata,*pdata1, *pdata2, *pdata3,*pdata4, *evdata;
+                                                             ^
+frontend.c:247:53: warning: unused variable ‘pdata3’ [-Wunused-variable]
+     DWORD *tdata, *ddata, *pdata,*pdata1, *pdata2, *pdata3,*pdata4, *evdata;
+                                                     ^
+frontend.c:247:44: warning: unused variable ‘pdata2’ [-Wunused-variable]
+     DWORD *tdata, *ddata, *pdata,*pdata1, *pdata2, *pdata3,*pdata4, *evdata;
+                                            ^
+frontend.c:247:35: warning: unused variable ‘pdata1’ [-Wunused-variable]
+     DWORD *tdata, *ddata, *pdata,*pdata1, *pdata2, *pdata3,*pdata4, *evdata;
+                                   ^
+frontend.c:247:28: warning: unused variable ‘pdata’ [-Wunused-variable]
+     DWORD *tdata, *ddata, *pdata,*pdata1, *pdata2, *pdata3,*pdata4, *evdata;
+                            ^
+frontend.c:247:20: warning: unused variable ‘ddata’ [-Wunused-variable]
+     DWORD *tdata, *ddata, *pdata,*pdata1, *pdata2, *pdata3,*pdata4, *evdata;
+                    ^
+frontend.c:247:12: warning: unused variable ‘tdata’ [-Wunused-variable]
+     DWORD *tdata, *ddata, *pdata,*pdata1, *pdata2, *pdata3,*pdata4, *evdata;
+            ^
+cc1: warning: command line option ‘-fpermissive’ is valid for C++/ObjC++ but not for C
+/home/neatdaq/NewDaq/packages/midas/src/cnaf_callback.c: In function ‘cnaf_callback’:
+/home/neatdaq/NewDaq/packages/midas/src/cnaf_callback.c:26:15: warning: variable ‘b’ set but not used [-Wunused-but-set-variable]
+    DWORD cmd, b, c, n, a, f, *pdword, *size, *x, *q, dtemp;
+               ^
+cc1: warning: command line option ‘-fpermissive’ is valid for C++/ObjC++ but not for C
+cc1: warning: command line option ‘-fpermissive’ is valid for C++/ObjC++ but not for C
+cc1: warning: command line option ‘-fpermissive’ is valid for C++/ObjC++ but not for C
+/tmp/cc5Na3QW.o: In function `read_trigger_event':
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:250: undefined reference to `CEANVME_SetOutputRegister'
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:251: undefined reference to `CEANVME_SetOutputRegister'
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:273: undefined reference to `V1740_AcqCtl'
+/tmp/cc5Na3QW.o: In function `frontend_init':
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:44: undefined reference to `CEANVME_DeviceReset'
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:45: undefined reference to `CEANVME_SetOutputConf'
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:46: undefined reference to `CEANVME_SetOutputConf'
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:49: undefined reference to `CEANVME_SetInputConf'
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:52: undefined reference to `CEANVME_ReadRegister'
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:55: undefined reference to `CEANVME_ReadRegister'
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:100: undefined reference to `v1740_ChannelThresholdSet'
+/tmp/cc5Na3QW.o: In function `begin_of_run':
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:120: undefined reference to `myvme_set_am'
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:121: undefined reference to `myvme_set_dmode'
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:155: undefined reference to `V1740_AcqCtl'
+/tmp/cc5Na3QW.o: In function `end_of_run':
+/home/neatdaq/sarafonline/digitizer/1740/frontend.c:170: undefined reference to `V1740_AcqCtl'
+collect2: error: ld returned 1 exit status
+Makefile:174: recipe for target 'frontend' failed
+make: *** [frontend] Error 1
