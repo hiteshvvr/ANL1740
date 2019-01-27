@@ -286,6 +286,7 @@ INT read_trigger_event(char *pevent, INT off)
         bytes_remaining = size_of_evt * nu_of_evt * 4;     //chaning from 32bit to byte
         int toread = bytes_remaining;
 
+        printf("\n\n\n\nNew Event:: \t size of Event :: %d \t Nu of event :: %d \t  Bytes Remaining:: %d\n", size_of_evt, nu_of_evt, bytes_remaining);
         if (bytes_remaining > 1 )
         {
 //            printf("\n\n\n\nNew Event:: \t Bytes Remaining:: %d\n", bytes_remaining);
@@ -296,7 +297,7 @@ INT read_trigger_event(char *pevent, INT off)
             while(bytes_remaining > 1 && cycle < maxcycles)   // the cycle setting is important untill we have smart 
             {                                                  // trigger oterwise it will read many cylcles 
                                                                // and return odb fragmentation  error 
-    //            printf("Bytes Remaining:: %d Cycle :: %d\n", bytes_remaining, cycle);
+               printf("Bytes Remaining:: %d Cycle :: %d\n", bytes_remaining, cycle);
                 if (bytes_remaining > 4096)
                 {
                     bytes_totransfer = bytes_max;

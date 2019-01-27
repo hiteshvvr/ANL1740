@@ -303,7 +303,7 @@ int  v1740_Setup(MVME_INTERFACE *mvme, uint32_t base, int mode)
     regWrite(mvme, base, V1740_ACQUISITION_CONTROL,   0x00);   // Reset Acq Control
     regWrite(mvme, base, V1740_BUFFER_ORGANIZATION,  0x0A);    // 1K Nbuffers=1024, bufferSize=192
     regWrite(mvme, base, V1740_TRIG_SRCE_EN_MASK,    0x40000000);  // External Trigger
-    regWrite(mvme, base, V1740_GROUP_EN_MASK,      0xFF);    // 8grp enable
+    regWrite(mvme, base, V1740_GROUP_EN_MASK,      0x01);    // 8grp enable
     regWrite(mvme, base, V1740_POST_TRIGGER_SETTING, 800);     // PreTrigger (1K-800)
     printf("\n");
     break;
