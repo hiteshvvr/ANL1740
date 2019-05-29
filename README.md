@@ -1,2 +1,2 @@
 # ANL1740
-MIDAS Frontend and RootAna fro 1740 Digitizer CAEN
+MIDAS Frontend for 1740 Digitizer CAEN
